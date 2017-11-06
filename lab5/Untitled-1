@@ -1,0 +1,84 @@
+class anima{
+    
+    constructor();
+    {
+        this.type='animal'
+        
+        
+    }
+    say(say){
+        
+        console.log(this.type+'says'+say
+    }
+
+}
+
+let name='zach'
+
+while(true){
+
+    let name='obama'
+    console.log(name)
+    break
+}
+    console.log(name)
+
+    var person=new Object();
+    person.firstname=“John”;
+    person.lastname="Doe"
+    person.age=50;
+    person.eyecolor='blue';
+    document.write(person.firstname+"is"+person.age+"year's old."
+    )
+
+    rerson(firstname:"john",lastname:"Doe",age:50,eyecolor:"blue");
+    document.write(person)
+
+    function(firstname,lastname,age,eyecolor)
+    {
+        this.firstname=firstname;
+        this.lastname=lastname;
+        this.age=age;
+        this.eyecolor=eyecolor;
+
+        this.changeName=changeName;    
+        function changeName(name){
+
+            this.changeName=name;
+        }
+
+        mymother=new person("Sally","Rally",48,"green");
+        mymother.changeName("Doe");
+        document.write(mymother.lastname);
+            }
+
+            function myfunction(){
+
+                var x;
+                var txt=" ";
+                var person=(fname:"Bill",lname:"Gates",age:56);
+                for(x in person){
+
+                    txt=txt+person[x];
+                }
+                document.getElementById("demo").innrHTML=txt;
+
+                var d=new Date();
+                document.write(d)；
+
+                var i=0;
+                var mycars=array();
+                mycar[0]="Saab";
+                mycar[1]="Volvo";
+                mycar[2]="BMW";
+                for(i=0;i<mycars.length;i++)
+                {
+                    document.write(mycars[i]+"<br>");
+
+                }
+
+
+
+            }
+
+

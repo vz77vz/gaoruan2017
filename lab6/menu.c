@@ -30,7 +30,8 @@ int Help();
 #define CMD_MAX_LEN 128
 #define DESC_LEN    1024
 #define CMD_NUM     10
-
+#define CMD_MAX_ARGV_NUM 1000
+ 
 char cmd[CMD_MAX_LEN];
 
 /* data struct and its operations */
@@ -40,7 +41,7 @@ typedef struct DataNode
     tLinkTableNode * pNext;
     char*   cmd;
     char*   desc;
-    int     (*handler)();
+    int     (*handler)(int argc,char *argv[]);
 } tDataNode;
 
 int SearchCondition(tLinkTableNode * pLinkTableNode)
@@ -85,10 +86,10 @@ int InitMenuData(tLinkTable ** ppLinktable)
     pNode->handler = NULL; 
     AddLinkTableNode(*ppLinktable,(tLinkTableNode *)pNode);
     pNode = (tDataNode*)malloc(sizeof(tDataNode));
-    //pNode->cmd = "quit";
-    //pNode->desc = "Quit from Menu Program V1.0";
-    //pNode->handler = Quit; 
-    AddLinkTableNode(*ppLinktable,(tLinkTableNode *)pNode);
+   // pNode->cmd = "quit";
+   // pNode->desc = "Quit from Menu Program V1.0";
+   // pNode->handler = Quit; 
+   // AddLinkTableNode(*ppLinktable,(tLinkTableNode *)pNode);
  
     return 0; 
 }
@@ -97,7 +98,7 @@ int InitMenuData(tLinkTable ** ppLinktable)
 
 tLinkTable * head = NULL;
 
-int main()
+int main(int argc,char *argv[])
 {
     InitMenuData(&head); 
    /* cmd line begins */
@@ -114,13 +115,13 @@ int main()
         printf("%s - %s\n", p->cmd, p->desc); 
         if(p->handler != NULL) 
         { 
-            p->handler();
+            p->handler(argc,argv);
         }
    
     }
 }
 
-int Help()
+int Help(int argc,char *argv[])
 {
     ShowAllCmd(head);
     return 0; 
@@ -128,7 +129,7 @@ int Help()
 
 
 
-int MenuConfig(char* cmd,char* desc,int (*handler)())
+int MenuConfig(char* cmd,char* desc,int (*handler)(int argc,char *argv[]))
 {
     tDataNode* pNode=NULL;
     if(head==NULL){
@@ -150,10 +151,32 @@ int MenuConfig(char* cmd,char* desc,int (*handler)())
 int ExeCuteMenu(){
 
     while(1){
+	int argc=0;
+	char *argv[CMD_MAX_ARGV_NUM];
         char cmd[CMD_MAX_LEN];
+	char *pcmd=NULL;
         printf("Input a cmd number > ");
-        scanf("%s",cmd);
-        tDataNode *p=(tDataNode*)SearchLinkTableNode(head,SearchCondition,(void*)cmd);
+        //scanf("%s",cmd);
+        pcmd=fgets(cmd,CMD_MAX_LEN,stdin);
+	
+	if(cmd==NULL){
+	    continue;
+	    pcmd=strtok(pcmd," ");
+	}
+	while(pcmd!=NULL && argc<CMD_MAX_ARGV_NUM){
+	    argv[argc]=pcmd;
+	    argc++;
+	    pcmd=strtok(NULL," ");
+
+	}
+	if(argc==1){
+	
+	    int len=strlen(argv[0]);
+	    *(argv[0]+len-1)='\0';
+
+	}
+
+	tDataNode *p=(tDataNode*)SearchLinkTableNode(head,SearchCondition(void*)argv[0]);
         if(p==NULL)
         {
             printf("This is a wrong cmd!\n ");
@@ -162,7 +185,7 @@ int ExeCuteMenu(){
         printf("%S-%s\n",p->cmd,p->desc);
         if(p->handler !=NULL)
         {
-            p->handler();
+            p->handler(argc,argv);
 
         }
 
